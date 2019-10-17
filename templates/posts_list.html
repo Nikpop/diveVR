@@ -1,0 +1,25 @@
+{% extends 'base.html' %}
+
+{% block title %}
+    Posts list
+{% endblock %}
+
+{% block content %}
+    <h1 class="md-5">Post</h1>
+    {% for posts in object_list %}
+        <div class="card">
+            <div class="card-header">
+                <span class="font-weight-bold">{{ posts.title }}</span>
+                <span class="text-muted">by {{ posts.author }} |
+                    {{ posts.date }}</span>
+            </div>
+            <div class="card-body">
+                {{ posts.body }}
+            </div>
+            <div class="card-footer text-center text-muted">
+                <a href="{% url 'posts_edit' posts.pk %}">Edit</a> | <a href="{% url 'posts_delete' posts.pk %}">Delete</a>
+            </div>
+        </div>
+        <br/>
+    {% endfor %}
+{% endblock %}

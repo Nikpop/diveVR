@@ -1,0 +1,76 @@
+
+
+{% block content %}
+    <h1 class="md-5">Post</h1>
+    <div class="article-entry">
+
+        <p>{{ object.author }} | {{ object.date }}</p>
+        <p>{{ object.body }}</p>
+    </div>
+
+    <p><a href="{% url 'posts_edit' posts.pk %}">Edit</a>
+        <a href="{% url 'posts_delete' posts.pk %}">Delete</a></p>
+    <p>Back to <a href="{% url 'posts_list' %}">All posts</a></p>
+{% endblock %}
+
+
+  <head>
+    <title>{{posts.title}}</title>
+    <meta name="description" content="Animate WebVR Moods with A-Frame and the Animation Tag.">
+    <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
+  </head>
+  <body>
+    <a-scene fog="type: exponential; >
+
+      <a-assets>
+        <img id="blur-image" src="https://cdn.glitch.com/daae73ed-1502-4527-b809-03c18d6fb3e5%2Fblur.png?1503612651214">
+
+        <a-asset-item id="street-lamp-obj" src="https://cdn.glitch.com/10eac27a-eba4-4e00-be20-e744cb21afd2%2Fmodel.obj?1503963016964"></a-asset-item>
+        <a-asset-item id="street-lamp-mtl" src="https://cdn.glitch.com/10eac27a-eba4-4e00-be20-e744cb21afd2%2Fmaterials.mtl?1503963017033"></a-asset-item>
+
+        <a-asset-item id="city-obj" src="https://cdn.glitch.com/10eac27a-eba4-4e00-be20-e744cb21afd2%2Fcity-block.obj?1504041197187"></a-asset-item>
+        <a-asset-item id="city-mtl" src="https://cdn.glitch.com/10eac27a-eba4-4e00-be20-e744cb21afd2%2Fcity-block.mtl?1504041197228"></a-asset-item>
+
+        <a-mixin id="transition" dur="7000" direction="alternate" repeat="indefinite" easing="ease-out-cubic"></a-mixin>
+      </a-assets>
+
+
+
+      <!-- General Enviornment -->
+	   <!-- Background selected when creating a new scene (taken from the database ) -->
+      <a-sky id="sky" color="skyblue"></a-sky>
+      <a-light type="ambient" intensity=".5" color="#FF54CA"></a-light>
+
+	      <!-- Text written by the user when creating a new scene (taken from the database) -->
+	  <a-entity id='text-container' position="0 1.6 -0.5"></a-entity>
+    <a-plane id="ground" position="0 0 0" rotation="-90 0 0" width="100" height="100" color="#00FF00" material="roughness: 1;"></a-plane>
+
+
+      <!-- Model depending on the selected user (from the database)-->
+      <a-obj-model class="obj_model" id="city-scape-left" position="-55 0 -40" rotation="0 90 0" scale="30 65 35" src="#blank" mtl=w"#city-mtl"></a-obj-model>
+      <a-obj-model  class="obj_model" id="city-scape" position="-5 0 -40" rotation="0 90 0" scale="30 35 35" src="#blank" mtl="#city-mtl"></a-obj-model>
+      <a-obj-model  class="obj_model" id="city-scape-right" position="50 0 -40" rotation="0 90 0" scale="30 65 35" src="#blank" mtl="#city-mtl"></a-obj-model>
+
+
+      <!-- Street Lamp -->
+      <a-entity id="street-lamp">
+        <a-obj-model id="street-lamp-model" position="2 2 -5" rotation="0 180 0" src="#street-lamp-obj" mtl="#street-lamp-mtl"></a-obj-model>
+        <a-light id="street-lamp-light" position="1.4 3.6 -5" type="point" intensity="0" color="#00E6FF">
+          <a-animation attribute="light.intensity"
+                       from="0"
+                       to="1"
+                       >
+          </a-animation>
+        </a-light>
+
+        <a-image id="light-bulb-image" position="1.4 3.6 -5" rotation="-90 0 0" scale="0.6 0.6 0.6" opacity="0" src="#blur-image">
+          <a-animation attribute="material.opacity"
+                       from="0"
+                       to="1"
+                       >
+          </a-animation>
+        </a-image>
+      </a-entity>
+
+    </a-scene>
+  </body>
